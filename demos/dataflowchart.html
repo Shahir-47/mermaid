@@ -13,17 +13,22 @@
     </style>
   </head>
   <body>
-    <h1>Data Flow Diagram demos</h1>
+    <h1>Clickable Data Flow Diagram demos</h1>
     <pre class="mermaid">
-    flowchart LR
+    flowchart TD
       accTitle: A simple linear flowchart.
       accDescr: A Database has input to a circle System has output to a square Customer.
       DataStore[|borders:tb|Database] -->|input| Process((System)) -->|output| Entity[Customer];
+
+      %% Make nodes clickable with alerts
+      click DataStore alertNode "This is an alert for DataStore node"
+      click Process alertNode "This is an alert for Process node"
+      click Entity alertNode "This is an alert for Entity node"
     </pre>
 
     <hr />
 
-    <h2>Borders Example</h2>
+    <h2>Clickable Borders Example</h2>
     <pre class="mermaid">
     flowchart TD
       allSides[ stroke all sides ];
@@ -32,18 +37,30 @@
       ltSides[|borders:lt| stroke left and top sides ];
       lrSides[|borders:lr| stroke left and right sides ];
       noSide[|borders:no| stroke no side ];
+
+      %% Make nodes clickable with alerts
+      click allSides alertNode "This is an alert for allSides node"
+      click allSides2 alertNode "This is an alert for allSides2 node"
+      click rbSides alertNode "This is an alert for rbSides node"
+      click ltSides alertNode "This is an alert for ltSides node"
+      click lrSides alertNode "This is an alert for lrSides node"
+      click noSide alertNode "This is an alert for noSide node"
     </pre>
 
     <script type="module">
       import mermaid from './mermaid.esm.mjs';
       mermaid.initialize({
-        theme: 'forest',
+        theme: 'dark',
         logLevel: 3,
         securityLevel: 'loose',
         flowchart: { curve: 'basis' },
       });
     </script>
     <script>
+      window.alertNode = function (nodeId) {
+        alert(`Alert triggered for node: ${nodeId}`);
+      };
+
       function testClick(nodeId) {
         console.log('clicked', nodeId);
         let originalBgColor = document.querySelector('body').style.backgroundColor;
