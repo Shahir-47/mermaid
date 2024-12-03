@@ -245,6 +245,26 @@
   </pre>
     <hr />
 
+    <h2>Sample 491</h2>
+    <h3>Graph</h3>
+    <pre class="mermaid">
+    ---
+    title: Example
+    ---
+    graph TD
+      A[Very Important Node]:::em1 --> B
+      B[Less Important Node]:::em2 --> C[Another Important Node]:::em3
+      D[Also Important Node]:::em3 --> B
+      C --> E[Important Node Redux]:::em4
+      
+      classDef em1 emphasis:1
+      classDef em2 emphasis:1
+      classDef em3 emphasis:1
+      classDef em4 emphasis:4
+    </pre>
+
+    <hr />
+
     <h3>flowchart</h3>
     <pre class="mermaid">
     flowchart TD
