@@ -228,6 +228,20 @@
     </pre>
     <hr />
 
+    <h3>graph</h3>
+    <pre class="mermaid">
+    graph TD
+      A[Very Important Node]:::em1 --> B
+      B[Less Important Node] --> C[Another Important Node]:::em2
+      D[Also Important Node]:::em3 --> B
+      C --> E[Important Node Redux this is a test to experiment if the text begins to overflow within this block if its size does not go up]:::em4
+      classDef em1 font-size:20px
+      classDef em2 height:75px
+      classDef em3 font-weight:bold
+      classDef em4 font-size:20px,height:75px,font-weight:bold
+    </pre>
+    <hr />
+
     <h2>Sample 2</h2>
     <h3>graph</h3>
     <pre class="mermaid">
