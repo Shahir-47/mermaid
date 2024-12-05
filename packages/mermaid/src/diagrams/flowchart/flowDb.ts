@@ -293,10 +293,19 @@ export const addClass = function (ids: string, style: string[]) {
     if (style !== undefined && style !== null) {
       style.forEach(function (s) {
         if (/color/.exec(s)) {
-          const newStyle = s.replace('fill', 'bgFill'); // .replace('color', 'fill');
+          const newStyle = s.replace('fill', 'bgFill');
           classNode.textStyles.push(newStyle);
         }
-        classNode.styles.push(s);
+
+        // Add emphasis flag with scale factor to scale up or down based on importance (e.g. emphasis:1.5)
+        if (/emphasis/.exec(s)) {
+          const emphasisValue = parseFloat(s.split(':')[1]);
+          const zoomStyle = `zoom:${emphasisValue}`;
+          classNode.styles.push(zoomStyle);
+          classNode.textStyles.push('font-weight:semibold');
+        } else {
+          classNode.styles.push(s);
+        }
       });
     }
   });
