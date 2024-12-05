@@ -300,9 +300,8 @@ export const addClass = function (ids: string, style: string[]) {
         // Add emphasis flag with scale factor to scale up or down based on importance (e.g. emphasis:1.5)
         if (/emphasis/.exec(s)) {
           const emphasisValue = parseFloat(s.split(':')[1]);
-          const zoomStyle = `zoom:${emphasisValue}`;
-          classNode.styles.push(zoomStyle);
-          classNode.textStyles.push('font-weight:semibold');
+          const fontSizeStyle = `font-size:${emphasisValue}em`;
+          classNode.styles.push(fontSizeStyle);
         } else {
           classNode.styles.push(s);
         }
