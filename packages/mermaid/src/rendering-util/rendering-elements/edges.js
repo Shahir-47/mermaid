@@ -151,8 +151,8 @@ export const positionEdgeLabel = (edge, paths) => {
   const { subGraphTitleTotalMargin } = getSubGraphTitleMargins(siteConfig);
   if (edge.label) {
     const el = edgeLabels.get(edge.id);
-    let x = edge.x;
-    let y = edge.y;
+    let x = edge.sections[0].startPoint.x;
+    let y = edge.sections[0].startPoint.y;
     if (path) {
       const pos = utils.calcLabelPosition(path);
       log.debug(
