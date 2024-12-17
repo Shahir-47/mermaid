@@ -151,14 +151,32 @@ export const positionEdgeLabel = (edge, paths) => {
   const { subGraphTitleTotalMargin } = getSubGraphTitleMargins(siteConfig);
   if (edge.label) {
     const el = edgeLabels.get(edge.id);
+    let x, y;
 
-    // doesn't work for flowchart-elk but works for flowchart
-    const vertical = Math.abs(path[0].x - path[path.length - 1].x) < 0.01;
-    const horizontal = Math.abs(path[0].y - path[path.length - 1].y) < 0.01;
-    const offset = 20;
+    if (edge.classes.includes('flowchart')) {
+      if (edge.sections) {
+        if (edge.sections[0].bendPoints) {
+          x = edge.sections[0].bendPoints[1].x;
+          y = edge.sections[0].bendPoints[1].y;
+        } else {
+          // flowchart-elk
+          x = edge.sections[0].startPoint.x;
+          y = edge.sections[0].startPoint.y;
+        }
+      } else {
+        // flowchart dagre
+        const vertical = Math.abs(path[0].x - path[path.length - 1].x) < 0.01;
+        const horizontal = Math.abs(path[0].y - path[path.length - 1].y) < 0.01;
+        const offset = 20;
 
-    let x = path[0].x + (horizontal ? offset : 0);
-    let y = path[0].y + (vertical ? offset : 0);
+        x = path[0].x + (horizontal ? offset : 0);
+        y = path[0].y + (vertical ? offset : 0);
+      }
+    } else {
+      // not flowchart
+      x = edge.x;
+      y = edge.y;
+    }
 
     if (path) {
       const pos = utils.calcLabelPosition(path);
