@@ -151,8 +151,15 @@ export const positionEdgeLabel = (edge, paths) => {
   const { subGraphTitleTotalMargin } = getSubGraphTitleMargins(siteConfig);
   if (edge.label) {
     const el = edgeLabels.get(edge.id);
-    let x = edge.sections[0].startPoint.x;
-    let y = edge.sections[0].startPoint.y;
+
+    // doesn't work for flowchart-elk but works for flowchart
+    const vertical = Math.abs(path[0].x - path[path.length - 1].x) < 0.01;
+    const horizontal = Math.abs(path[0].y - path[path.length - 1].y) < 0.01;
+    const offset = 20;
+
+    let x = path[0].x + (horizontal ? offset : 0);
+    let y = path[0].y + (vertical ? offset : 0);
+
     if (path) {
       const pos = utils.calcLabelPosition(path);
       log.debug(
