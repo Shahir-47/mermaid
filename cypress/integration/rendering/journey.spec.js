@@ -4,9 +4,9 @@ describe('User journey diagram', () => {
   it('Simple test', () => {
     imgSnapshotTest(
       `journey
-title Adding journey diagram functionality to mermaid
-section Order from website
-    `,
+  title Adding journey diagram functionality to mermaid
+  section Order from website
+      `,
       {}
     );
   });
@@ -14,16 +14,16 @@ section Order from website
   it('should render a user journey chart', () => {
     imgSnapshotTest(
       `
-    journey
-    title My working day
-    section Go to work
-      Make tea: 5: Me
-      Go upstairs: 3: Me
-      Do work: 1: Me, Cat
-    section Go home
-      Go downstairs: 5: Me
-      Sit down: 3: Me
-      `,
+      journey
+      title My working day
+      section Go to work
+        Make tea: 5: Me
+        Go upstairs: 3: Me
+        Do work: 1: Me, Cat
+      section Go home
+        Go downstairs: 5: Me
+        Sit down: 3: Me
+        `,
       {}
     );
   });
@@ -31,12 +31,12 @@ section Order from website
   it('should render a user journey diagram when useMaxWidth is true (default)', () => {
     renderGraph(
       `journey
-title E-Commerce
-section Order from website
-  Add to cart: 5: Me
-section Checkout from website
-  Add payment details: 5: Me
-    `,
+  title E-Commerce
+  section Order from website
+    Add to cart: 5: Me
+  section Checkout from website
+    Add payment details: 5: Me
+      `,
       { journey: { useMaxWidth: true } }
     );
     cy.get('svg').should((svg) => {
@@ -54,13 +54,38 @@ section Checkout from website
   it('should render a user journey diagram when useMaxWidth is false', () => {
     imgSnapshotTest(
       `journey
-title E-Commerce
-section Order from website
-  Add to cart: 5: Me
-section Checkout from website
-  Add payment details: 5: Me
-    `,
+  title E-Commerce
+  section Order from website
+    Add to cart: 5: Me
+  section Checkout from website
+    Add payment details: 5: Me
+      `,
       { journey: { useMaxWidth: false } }
     );
+  });
+
+  it('should give an alert if the task score is greater than 5', () => {
+    const alertStub = cy.stub();
+    cy.on('window:alert', alertStub);
+
+    renderGraph(
+      `journey
+        accTitle: simple journey demo
+        accDescr: 2 main sections: work and home, each with just a few tasks
+  
+      section Go to work
+        Make tea: 7: Me
+        Go upstairs: 3: Me
+      section Go home
+        Go downstairs: 5: Me
+        Sit down: 2: Me`
+    );
+
+    cy.wait(500).then(() => {
+      expect(alertStub).to.have.callCount(1);
+      expect(alertStub.getCall(0)).to.have.been.calledWith(
+        "Score must be 1-5. Feel free to adjust, or we'll cap it at 5! 😎."
+      );
+    });
   });
 });
