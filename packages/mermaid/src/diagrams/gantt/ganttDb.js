@@ -31,6 +31,7 @@ let excludes = [];
 let links = new Map();
 let sections = [];
 let tasks = [];
+let customDateMarkers = [];
 let currentSection = '';
 let displayMode = '';
 const tags = ['active', 'done', 'crit', 'milestone', 'vert'];
@@ -139,6 +140,8 @@ export const getExcludes = function () {
   return excludes;
 };
 
+export const getCustomDateMarkers = () => customDateMarkers;
+
 export const getLinks = function () {
   return links;
 };
@@ -235,6 +238,18 @@ const checkTaskDates = function (task, dateFormat, excludes, includes) {
   task.endTime = fixedEndTime.toDate();
   task.renderEndTime = renderEndTime;
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////
+export const addCustomDateMarker = (label, dateStr) => {
+  const date = dayjs(dateStr, dateFormat.trim(), true);
+  if (date.isValid()) {
+    customDateMarkers.push({ label, date: date.toDate() });
+  } else {
+    log.debug('Invalid custom date marker:', dateStr);
+  }
+};
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * TODO: what does this function do?
@@ -795,6 +810,8 @@ export default {
   setWeekday,
   getWeekday,
   setWeekend,
+  addCustomDateMarker,
+  getCustomDateMarkers,
 };
 
 /**

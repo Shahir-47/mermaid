@@ -75,6 +75,11 @@ const getStyles = (options) =>
     stroke-width: 2px;
   }
 
+  .custom-date-line {
+    stroke: ${options.todayLineColor};
+    stroke-width: 5px;
+}
+
 
   /* Task styling */
 

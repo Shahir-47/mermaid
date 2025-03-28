@@ -87,6 +87,7 @@ weekday\s+sunday                return 'weekday_sunday'
 weekend\s+friday                return 'weekend_friday'
 weekend\s+saturday              return 'weekend_saturday'
 \d\d\d\d"-"\d\d"-"\d\d          return 'date';
+"dateMarker"\s+[^#\n;]+        return 'dateMarker';
 "title"\s[^\n]+               return 'title';
 "accDescription"\s[^#\n;]+      return 'accDescription'
 "section"\s[^\n]+            return 'section';
@@ -153,6 +154,16 @@ statement
   | section { yy.addSection($1.substr(8));$$=$1.substr(8); }
   | clickStatement
   | taskTxt taskData {yy.addTask($1,$2);$$='task';}
+  | dateMarker { 
+      const parts = $1.substr(11).split(":"); 
+      if (parts.length === 2) {
+          const label = parts[0].trim();
+          const date = parts[1].trim();
+          yy.addCustomDateMarker(label, date);
+      }
+      $$ = $1.substr(11);
+  }
+
   ;
 
 

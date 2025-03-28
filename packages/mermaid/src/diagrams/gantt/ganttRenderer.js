@@ -219,6 +219,7 @@ export const draw = function (text, id, version, diagObj) {
     drawRects(tasks, gap, topPadding, leftPadding, barHeight, colorScale, pageWidth, pageHeight);
     vertLabels(gap, topPadding, leftPadding, barHeight, colorScale);
     drawToday(leftPadding, topPadding, pageWidth, pageHeight);
+    drawCustomDateLines(leftPadding, conf.titleTopMargin, w, h);
   }
 
   /**
@@ -769,6 +770,35 @@ export const draw = function (text, id, version, diagObj) {
     if (todayMarker !== '') {
       todayLine.attr('style', todayMarker.replace(/,/g, ';'));
     }
+  }
+
+  function drawCustomDateLines(theSidePad, theTopPad, w, h) {
+    // console.log('diagObj.db:', diagObj.db); // Debugging
+    // console.log('Available db functions:', Object.keys(diagObj.db)); // Check exposed methods
+
+    if (!diagObj.db.getCustomDateMarkers) {
+      // console.error('getCustomDateMarkers() is missing');
+      return;
+    }
+    const markers = diagObj.db.getCustomDateMarkers();
+    if (!markers || markers.length === 0) {
+      return;
+    }
+
+    const markerGroup = svg.append('g').attr('class', 'custom-date-markers');
+
+    markers.forEach((marker) => {
+      const x = timeScale(marker.date) + theSidePad;
+
+      // Draw vertical line
+      markerGroup
+        .append('line')
+        .attr('x1', x)
+        .attr('x2', x)
+        .attr('y1', theTopPad)
+        .attr('y2', h - theTopPad)
+        .attr('class', 'custom-date-line');
+    });
   }
 
   /**
