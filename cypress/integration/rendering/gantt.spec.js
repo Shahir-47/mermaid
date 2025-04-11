@@ -408,7 +408,7 @@ describe('Gantt diagram', () => {
 
         section Section
         A task           : a1, 00, 6s
-        Another task     : vert a1, 6s
+        Another task     : after a1, 6s
         section Another
         Task in sec      : 06, 3s
         another task     : 3s
